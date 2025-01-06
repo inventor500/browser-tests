@@ -1,0 +1,4 @@
+# TypeScript compiles to these
+*.mjs
+*.js
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="test-browser.mjs" type="module"></script>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <title>Browser Tests</title>
+    </head>
+    <body>
+        <noscript><strong>These tests are run via JavaScript.</strong></noscript>
+        <button id="run-tests">Re-Run Tests</button>
+        <h1>Test Results</h1>
+        <section>
+            <table>
+                <tr class="title-row"><th>Test</th><th>Result</th></tr>
+                <tbody id="results"></tbody>
+            </table>
+        </section>
+        <hr>
+        <h1>Notes</h1>
+        <ul class="center">
+        <li><strong>NONE</strong> of the data gathered by the tests is sent back to the server.</li>
+        <li class="center">Results may be different when selecting re-running the tests. Some browsers treat user-initiated and non-user-initiated actions differently.</li>
+        </ul>
+        <section id="notes">
+            <h2>Permission Requests</h2>
+            <table>
+                <tr class="title-row"><th>Permission</th><th>Usage</th></tr>
+                <tbody>
+                    <tr><th>Clipboard</th><td>Testing if the clipboard can be read</td></tr>
+                    <tr><th>Geolocation</th><td>Testing location</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </body>
+</html>
