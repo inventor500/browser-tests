@@ -2,6 +2,14 @@
 This is a simple HTML/JavaScript page for running tests on the browser. The purpose is to see what metadata can be found just using JavaScript.
 This **DOES NOT** send the results of the tests to any remote server.
 
+## Compilation
+
+Compilation requires TypeScript to be installed.
+
+```shell
+$ tsc
+```
+
 ## Usage
 
 Launch an HTTP server to serve the HTML page, e.g.
