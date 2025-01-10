@@ -9,6 +9,15 @@ export {
 type tests = Map<string, () => (string|Promise<string>)>;
 
 const Tests: tests = {
+    "test-run-time": () => {
+        const day = new Date;
+        return day.toLocaleString("sv", {timeZoneName: "shortOffset"});
+    },
+    "time-zone": () => {
+        const offset = new Date().getTimezoneOffset();
+        // The offset is positive in the Western hemisphere (i.e. UTC-something)
+        return `UTC${offset >= 0 ? '+' : '-'}${offset / 60}`;
+    },
     // Get the current user agent
     "user-agent": () => window.navigator.userAgent,
     "platform": () => {
@@ -85,7 +94,6 @@ const Tests: tests = {
             }
         });
     },
-    
 } as unknown as tests; // Hacky, but works
 
 // The main function to run the tests and display results
