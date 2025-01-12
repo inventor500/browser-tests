@@ -28,6 +28,14 @@ const Tests: tests = {
             return "null";
         }
     },
+    "build-id": () => {
+        // This is only for Firefox
+        type navi = {
+            buildID?: String
+        };
+        const nav = navigator as unknown as navi;
+        return nav.buildID;
+    },
     "do-not-track": () => boolToString(window.navigator.doNotTrack == "1"),
     // Check if global pricacy control is enabled
     // Can only be "True" or "False" - not supported is false
@@ -35,7 +43,7 @@ const Tests: tests = {
         // This only exists in supported browsers, e.g. Firefox, Brave
         type navi = {
             globalPrivacyControl?: Boolean,
-        }
+        };
         const nav = window.navigator as unknown as navi;
         if (nav["globalPrivacyControl"] == null) {
             return "False";            
@@ -69,10 +77,10 @@ const Tests: tests = {
     "battery-level": async () => {
         type bat = {
             level: number,
-        }
+        };
         type navi = {
             getBattery?: () => Promise<bat>,
-        }
+        };
         const nav: navi = window.navigator as unknown as navi;
         if (nav["getBattery"] != null) {
             const battery = await nav["getBattery"]();
@@ -81,6 +89,7 @@ const Tests: tests = {
             return "null";
         }
     },
+    "hardware-concurrency": () => navigator.hardwareConcurrency.toString(),
     "geolocation": () => {
         return new Promise((resolve) => {
             try {
@@ -94,6 +103,26 @@ const Tests: tests = {
             }
         });
     },
+    "cookie-enabled": () => boolToString(navigator.cookieEnabled),
+    // Deprecated function
+    "java-enabled": () => boolToString(navigator.javaEnabled()),
+    // Check if the user is online
+    "online": () => boolToString(navigator.onLine),
+    "navigator": () => boolToString(navigator.webdriver),
+    "user-active": () => {
+        const val = navigator.userActivation;
+        // JSON.stringify returns an empty object
+        return `{"hasBeenActive": ${val.hasBeenActive}, "isActive": ${val.isActive}}`;
+    },
+    "taint-enabled": () => {
+        // This is deprecated and should always return false, if it is present at all
+        type navi = {
+            taintEnabled?: () => boolean,
+        };
+        const nav = navigator as unknown as navi;
+        if (nav.taintEnabled === undefined || nav.taintEnabled === null) return null;
+        return boolToString(nav.taintEnabled());
+    }
 } as unknown as tests; // Hacky, but works
 
 // The main function to run the tests and display results
@@ -103,6 +132,8 @@ async function main() {
             const result = func();
             if (typeof result == "string") {
                 createRow(name, result);
+            } else if (typeof result === undefined || result == null) {
+                createRow(name, "null");
             } else {
                 handleAsyncReturn(name, result);
             }
